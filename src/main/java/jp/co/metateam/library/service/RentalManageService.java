@@ -2,10 +2,14 @@ package jp.co.metateam.library.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import jp.co.metateam.library.model.Account;
 import jp.co.metateam.library.model.BookMst;
@@ -17,8 +21,13 @@ import jp.co.metateam.library.repository.RentalManageRepository;
 import jp.co.metateam.library.repository.StockRepository;
 import jp.co.metateam.library.values.RentalStatus;
 
+
+import jp.co.metateam.library.service.StockService;
+
+
 @Service
 public class RentalManageService {
+
 
     private final AccountRepository accountRepository;
     private final RentalManageRepository rentalManageRepository;
@@ -46,6 +55,12 @@ public class RentalManageService {
     public RentalManage findById(Long id) {
         return this.rentalManageRepository.findById(id).orElse(null);
     }
+
+    @Transactional
+    public List<RentalManage> findByStockId(String StockId) {
+        return this.rentalManageRepository.findByStockId(StockId);
+    }
+
 
     @Transactional 
     public void save(RentalManageDto rentalManageDto) throws Exception {
@@ -126,7 +141,6 @@ public class RentalManageService {
             throw e;
         }
     } 
- 
 }
 
 
