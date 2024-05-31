@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -156,8 +157,10 @@ public class StockService {
                 stockCalenderDto.setExpectedRentalOn(day);
 
                 Long unAvailableCount = findByUnAvailableCount(day, title);
-                List<String> stockIdList = findByAvailableStockId(day, title);
-                stockCalenderDto.setStockId(stockIdList.get(0));
+                List<String> AvailStockIdList = findByAvailableStockId(day, title);
+                if (!AvailStockIdList.isEmpty()) {
+                    stockCalenderDto.setStockId(AvailStockIdList.get(0));
+                }
 
                 Long dayStockNum = stockNum - unAvailableCount;
                 if (dayStockNum == 0) {
